@@ -61,13 +61,16 @@ export async function fetchArtifacts(
 ): Promise<Artifact[]> {
   const octokit = await createGitHubClient()
 
-  const response = await octokit.actions.listWorkflowRunArtifacts({
-    owner,
-    repo,
-    run_id: runId
-  })
+  const artifacts = await octokit.paginate(
+    octokit.actions.listWorkflowRunArtifacts, {
+      owner,
+      repo,
+      run_id: runId,
+      per_page: 100,
+    }
+  )
 
-  return response.data.artifacts
+  return artifacts
 }
 
 /**

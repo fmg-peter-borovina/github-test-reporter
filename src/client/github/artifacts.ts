@@ -62,11 +62,12 @@ export async function fetchArtifacts(
   const octokit = await createGitHubClient()
 
   const artifacts = await octokit.paginate(
-    octokit.actions.listWorkflowRunArtifacts, {
+    octokit.actions.listWorkflowRunArtifacts,
+    {
       owner,
       repo,
       run_id: runId,
-      per_page: 100,
+      per_page: 100
     }
   )
 
